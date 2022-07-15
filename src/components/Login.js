@@ -2,31 +2,31 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 const Login = (props) => {
-    return (
-        <Container>
-            <Nav>
-                <Link to="/">
-                    <img src="/images/login-logo.svg" alt="" />
-                </Link>
-                <div>
-                    <Join>Join now</Join>
-                    <SignIn>Sign in</SignIn>
-                </div>
-            </Nav>
-            <Section>
-                <Hero>
-                    <h1>Welcome to your professional community</h1>
-                    <img src="/images/login-hero.svg" alt="" />
-                </Hero>
-                <Form>
-                    <Google>
-                        <img src="/images/google.svg" alt="" />
-                        Sign in with Google
-                    </Google>
-                </Form>
-            </Section>
-        </Container>
-    );
+  return (
+    <Container>
+      <Nav>
+        <Link to="/">
+          <img src="/images/login-logo.svg" alt="" />
+        </Link>
+        <div>
+          <Join>Join now</Join>
+          <SignIn>Sign in</SignIn>
+        </div>
+      </Nav>
+      <Section>
+        <Hero>
+          <h1>Welcome to your professional community</h1>
+          <img src="/images/login-hero.svg" alt="" />
+        </Hero>
+        <Form>
+          <Google>
+            <img src="/images/google.svg" alt="" />
+            Sign in with Google
+          </Google>
+        </Form>
+      </Section>
+    </Container>
+  );
 };
 
 const Container = styled.div`
@@ -58,6 +58,7 @@ const Join = styled.a`
   border-radius: 4px;
   color: rgba(0, 0, 0, 0.6);
   margin-right: 12px;
+  cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.08);
     color: rgba(0, 0, 0, 0.9);
@@ -75,6 +76,7 @@ const SignIn = styled.a`
   line-height: 40px;
   padding: 10px 24px;
   text-align: center;
+  cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
   &:hover {
     background-color: rgba(112, 181, 249, 0.15);
@@ -138,7 +140,7 @@ const Hero = styled.div`
 
 const Form = styled.div`
   margin-top: 100px;
-  width: 408px;
+  width: 100%;
   @media (max-width: 768px) {
     margin-top: 20px;
   }
