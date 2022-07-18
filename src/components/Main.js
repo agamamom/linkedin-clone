@@ -47,6 +47,48 @@ const Main = (props) => {
               <AiOutlineEllipsis className="ellip-icon" />
             </button>
           </SharedActor>
+          <Description>Description</Description>
+          <SharedImg>
+            <a>
+              <img src="/images/shared-images.jpg" alt="" />
+            </a>
+          </SharedImg>
+          <SocialCounts>
+            <li>
+              <button>
+                <i class="fa-solid fa-thumbs-up"></i>
+                <i class="fa-solid fa-hands-clapping"></i>
+                <span>67</span>
+              </button>
+            </li>
+            <li>
+              <a>2 comments</a>
+            </li>
+          </SocialCounts>
+          <SocialActions>
+            <button>
+              <i class="fa-solid fa-thumbs-up"></i>
+              <span>Like</span>
+            </button>
+            <button>
+              <i class="fa-solid fa-comment-dots"></i>
+              <span>
+                Comments
+              </span>
+            </button>
+            <button>
+              <i class="fa-solid fa-share"></i>
+              <span>
+                Share
+              </span>
+            </button>
+            <button>
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>
+                Send
+              </span>
+            </button>
+          </SocialActions>
         </Article>
       </div>
     </Container>
@@ -196,4 +238,71 @@ const SharedActor = styled.div`
     }
   }
 `;
-export default Main;
+
+const Description = styled.div`
+padding: 0 16px;
+overflow: hidden;
+color: rgba(0,0,0,0.9);
+font-size: 14px;
+text-align: left;
+`;
+
+const SharedImg = styled.div`
+  margin-top: 8px;
+  width: 100%;
+  display: block;
+  position: relative;
+  background-color: #9fafb9;
+  img{
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const SocialCounts = styled.ul`
+  line-height: 1.3;
+  display: flex;
+  align-items: flex-start;
+  overflow: auto;
+  margin: 0 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9e5df;
+  list-style: none;
+  li{
+    margin-right: 5px;
+    font-size: 12px;
+    button{
+      display: flex;
+      & i:first-child{
+        color: green;
+        margin-right: 4px;
+      }
+      & i:nth-child(2){
+        color: blue;
+        margin-right: 4px;
+      }
+    }
+  }
+`;
+
+const SocialActions = styled.div`
+  align-items:center;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  min-height: 40px;
+  padding: 4px 8px;
+  button{
+    display: inline-flex;
+    align-items: center;
+    padding: 8px;
+    color: #0a66c2;
+    @media screen and (min-width: 768px){
+      span{
+        margin-left: 8px;
+      }
+    }
+  }
+`;
+export default Main; 
