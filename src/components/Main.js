@@ -4,6 +4,7 @@ import { AiFillPicture } from 'react-icons/ai'
 import { MdOutlineVideoLibrary } from 'react-icons/md'
 import { MdEventAvailable } from 'react-icons/md'
 import { AiOutlineEllipsis } from 'react-icons/ai'
+import PostModal from './PostModal'
 const Main = (props) => {
   return (
     <Container>
@@ -91,6 +92,7 @@ const Main = (props) => {
           </SocialActions>
         </Article>
       </div>
+      <PostModal />
     </Container>
   );
 };
