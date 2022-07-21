@@ -5,9 +5,15 @@ import { MdOutlineVideoLibrary } from 'react-icons/md'
 import { MdEventAvailable } from 'react-icons/md'
 import { AiOutlineEllipsis } from 'react-icons/ai'
 import PostModal from './PostModal'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux/es/exports";
+import { getArticlesAPI } from "../action";
 const Main = (props) => {
   const [showModal, setShowModal] = useState("close");
+
+  useEffect(() => {
+    props.getArticles();
+  }, []);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -28,93 +34,107 @@ const Main = (props) => {
 
   }
   return (
-    <Container>
-      <ShareBox>
-        Share
-        <div>
-          <img src="/images/user.svg" alt="" />
-          <button onClick={handleClick}>Start a post</button>
-        </div>
-        <div>
-          <button>
-            <AiFillPicture className="photo-icon" />
-            <span>Photo</span>
-          </button>
-          <button>
-            <MdOutlineVideoLibrary className="video-icon" />
-            <span>Video</span>
-          </button>
-          <button>
-            <MdEventAvailable className="event-icon" />
-            <span>Event</span>
-          </button>
-          <button>
-            <RiArticleLine className="article-icon" />
-            <span>Write artile</span>
-          </button>
-        </div>
-      </ShareBox>
-      <div>
-        <Article>
-          <SharedActor>
-            <a>
-              <img src="/images/user.svg" alt="" />
+    <>
+      {
+        props.article.length === 0 ? (
+          <p>There are no articles</p>
+        ) : (
+          <Container>
+            <ShareBox>
               <div>
-                <span>Title</span>
-                <span>Info</span>
-                <span>Date</span>
+                {props.user && props.user.photoURL ? (
+                  <img src={props.user.photoURL} alt="" />
+                ) : (
+                  <img src="/images/user.svg" alt="" />
+                )}
+                <button onClick={handleClick} disabled={props.loading ? true : false}>Start a post</button>
               </div>
-            </a>
-            <button>
-              <AiOutlineEllipsis className="ellip-icon" />
-            </button>
-          </SharedActor>
-          <Description>Description</Description>
-          <SharedImg>
-            <a>
-              <img src="/images/shared-images.jpg" alt="" />
-            </a>
-          </SharedImg>
-          <SocialCounts>
-            <li>
-              <button>
-                <i class="fa-solid fa-thumbs-up"></i>
-                <i class="fa-solid fa-hands-clapping"></i>
-                <span>67</span>
-              </button>
-            </li>
-            <li>
-              <a>2 comments</a>
-            </li>
-          </SocialCounts>
-          <SocialActions>
-            <button>
-              <i class="fa-solid fa-thumbs-up"></i>
-              <span>Like</span>
-            </button>
-            <button>
-              <i class="fa-solid fa-comment-dots"></i>
-              <span>
-                Comments
-              </span>
-            </button>
-            <button>
-              <i class="fa-solid fa-share"></i>
-              <span>
-                Share
-              </span>
-            </button>
-            <button>
-              <i class="fa-solid fa-paper-plane"></i>
-              <span>
-                Send
-              </span>
-            </button>
-          </SocialActions>
-        </Article>
-      </div>
-      <PostModal showModal={showModal} handleClick={handleClick} />
-    </Container>
+              <div>
+                <button>
+                  <AiFillPicture className="photo-icon" />
+                  <span>Photo</span>
+                </button>
+                <button>
+                  <MdOutlineVideoLibrary className="video-icon" />
+                  <span>Video</span>
+                </button>
+                <button>
+                  <MdEventAvailable className="event-icon" />
+                  <span>Event</span>
+                </button>
+                <button>
+                  <RiArticleLine className="article-icon" />
+                  <span>Write artile</span>
+                </button>
+              </div>
+            </ShareBox>
+            <Content>
+              {
+                props.loading && (<img src="/images/spin-loading.svg" />)
+              }
+
+              <Article>
+                <SharedActor>
+                  <a>
+                    <img src="/images/user.svg" alt="" />
+                    <div>
+                      <span>Title</span>
+                      <span>Info</span>
+                      <span>Date</span>
+                    </div>
+                  </a>
+                  <button>
+                    <AiOutlineEllipsis className="ellip-icon" />
+                  </button>
+                </SharedActor>
+                <Description>Description</Description>
+                <SharedImg>
+                  <a>
+                    <img src="/images/shared-images.jpg" alt="" />
+                  </a>
+                </SharedImg>
+                <SocialCounts>
+                  <li>
+                    <button>
+                      <i class="fa-solid fa-thumbs-up"></i>
+                      <i class="fa-solid fa-hands-clapping"></i>
+                      <span>67</span>
+                    </button>
+                  </li>
+                  <li>
+                    <a>2 comments</a>
+                  </li>
+                </SocialCounts>
+                <SocialActions>
+                  <button>
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <span>Like</span>
+                  </button>
+                  <button>
+                    <i class="fa-solid fa-comment-dots"></i>
+                    <span>
+                      Comments
+                    </span>
+                  </button>
+                  <button>
+                    <i class="fa-solid fa-share"></i>
+                    <span>
+                      Share
+                    </span>
+                  </button>
+                  <button>
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>
+                      Send
+                    </span>
+                  </button>
+                </SocialActions>
+              </Article>
+            </Content>
+            <PostModal showModal={showModal} handleClick={handleClick} />
+          </Container>
+        )}
+    </>
   );
 };
 
@@ -328,4 +348,24 @@ const SocialActions = styled.div`
     }
   }
 `;
-export default Main; 
+
+const Content = styled.div`
+text-align: center;
+& > img{
+  width: 30px;
+}
+`;
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.articleState.loading,
+    user: state.userState.user,
+    articles: state.articleState.articles,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  getArticles: () => dispatch(getArticlesAPI()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main); 
