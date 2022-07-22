@@ -100,7 +100,7 @@ export function getArticlesAPI() {
     return (dispatch) => {
         let payload;
 
-        db.collection("article")
+        db.collection("articles")
             .orderBy("actor.date", "desc")
             .onSnapshot((snapshot) => {
                 payload = snapshot.docs.map((doc) => doc.data());

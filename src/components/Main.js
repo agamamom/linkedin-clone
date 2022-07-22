@@ -8,6 +8,7 @@ import PostModal from './PostModal'
 import { useEffect, useState } from "react";
 import { connect } from "react-redux/es/exports";
 import { getArticlesAPI } from "../action";
+import ReactPlayer from 'react-player';
 const Main = (props) => {
   const [showModal, setShowModal] = useState("close");
 
@@ -36,7 +37,7 @@ const Main = (props) => {
   return (
     <>
       {
-        props.article.length === 0 ? (
+        props.articles.length === 0 ? (
           <p>There are no articles</p>
         ) : (
           <Container>
@@ -72,64 +73,71 @@ const Main = (props) => {
               {
                 props.loading && (<img src="/images/spin-loading.svg" />)
               }
-
-              <Article>
-                <SharedActor>
-                  <a>
-                    <img src="/images/user.svg" alt="" />
-                    <div>
-                      <span>Title</span>
-                      <span>Info</span>
-                      <span>Date</span>
-                    </div>
-                  </a>
-                  <button>
-                    <AiOutlineEllipsis className="ellip-icon" />
-                  </button>
-                </SharedActor>
-                <Description>Description</Description>
-                <SharedImg>
-                  <a>
-                    <img src="/images/shared-images.jpg" alt="" />
-                  </a>
-                </SharedImg>
-                <SocialCounts>
-                  <li>
+              {props.articles.length > 0 && props.articles.map((article, index) => (
+                <Article key={index}>
+                  <SharedActor>
+                    <a>
+                      <img src={article.actor.image} alt="" />
+                      <div>
+                        <span>{article.actor.title}</span>
+                        <span>{article.actor.description}</span>
+                        <span>{article.actor.date.toDate().toLocaleDateString()}</span>
+                      </div>
+                    </a>
+                    <button>
+                      <AiOutlineEllipsis className="ellip-icon" />
+                    </button>
+                  </SharedActor>
+                  <Description>{article.description}</Description>
+                  <SharedImg>
+                    <a>
+                      {
+                        !article.sharedImg && article.video ? (
+                          <ReactPlayer width={'100%'} url={article.video} />
+                        ) : (
+                          article.sharedImg && <img src={article.sharedImg} />
+                        )
+                      }
+                    </a>
+                  </SharedImg>
+                  <SocialCounts>
+                    <li>
+                      <button>
+                        <i class="fa-solid fa-thumbs-up"></i>
+                        <i class="fa-solid fa-hands-clapping"></i>
+                        <span>67</span>
+                      </button>
+                    </li>
+                    <li>
+                      <a>{article.comments}</a>
+                    </li>
+                  </SocialCounts>
+                  <SocialActions>
                     <button>
                       <i class="fa-solid fa-thumbs-up"></i>
-                      <i class="fa-solid fa-hands-clapping"></i>
-                      <span>67</span>
+                      <span>Like</span>
                     </button>
-                  </li>
-                  <li>
-                    <a>2 comments</a>
-                  </li>
-                </SocialCounts>
-                <SocialActions>
-                  <button>
-                    <i class="fa-solid fa-thumbs-up"></i>
-                    <span>Like</span>
-                  </button>
-                  <button>
-                    <i class="fa-solid fa-comment-dots"></i>
-                    <span>
-                      Comments
-                    </span>
-                  </button>
-                  <button>
-                    <i class="fa-solid fa-share"></i>
-                    <span>
-                      Share
-                    </span>
-                  </button>
-                  <button>
-                    <i class="fa-solid fa-paper-plane"></i>
-                    <span>
-                      Send
-                    </span>
-                  </button>
-                </SocialActions>
-              </Article>
+                    <button>
+                      <i class="fa-solid fa-comment-dots"></i>
+                      <span>
+                        Comments
+                      </span>
+                    </button>
+                    <button>
+                      <i class="fa-solid fa-share"></i>
+                      <span>
+                        Share
+                      </span>
+                    </button>
+                    <button>
+                      <i class="fa-solid fa-paper-plane"></i>
+                      <span>
+                        Send
+                      </span>
+                    </button>
+                  </SocialActions>
+                </Article>
+              ))}
             </Content>
             <PostModal showModal={showModal} handleClick={handleClick} />
           </Container>
@@ -316,6 +324,8 @@ const SocialCounts = styled.ul`
     margin-right: 5px;
     font-size: 12px;
     button{
+      border: none;
+      background-color: white;
       display: flex;
       & i:first-child{
         color: green;
@@ -341,6 +351,8 @@ const SocialActions = styled.div`
     align-items: center;
     padding: 8px;
     color: #0a66c2;
+    border: none;
+    background-color: white;
     @media screen and (min-width: 768px){
       span{
         margin-left: 8px;
